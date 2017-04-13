@@ -19,6 +19,8 @@ class Link
 end
 
 class LinkedList
+  include Enumerable
+
   def initialize
     @head = Link.new
     @tail = Link.new
@@ -44,9 +46,20 @@ class LinkedList
   end
 
   def get(key)
+    current_node = @head
+    while current_node.next
+      return current_node.val if current_node.key == key
+      current_node = current_node.next
+    end
   end
 
   def include?(key)
+    current_node = @head
+    while current_node.next
+      return true if current_node.key == key
+      current_node = current_node.next
+    end
+    false
   end
 
   def append(key, val)
@@ -59,16 +72,39 @@ class LinkedList
   end
 
   def update(key, val)
+    current_node = @head
+    while current_node.next
+      if current_node.key == key
+        current_node.val = val
+        break
+      end
+      current_node = current_node.next
+    end
   end
 
   def remove(key)
+    current_node = @head
+    while current_node.next
+      if current_node.key == key
+        n_prev = current_node.prev
+        n_next = current_node.next
+        n_prev.next = n_next
+        n_next.prev = n_prev
+        break
+      end
+      current_node = current_node.next
+    end
   end
 
   def each
+    current_node = @head.next
+    while current_node.next
+      yield current_node
+      current_node = current_node.next
+    end
   end
 
-  # uncomment when you have `each` working and `Enumerable` included
-  # def to_s
-  #   inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
-  # end
+  def to_s
+    inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
+  end
 end
