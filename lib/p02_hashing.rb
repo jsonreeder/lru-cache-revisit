@@ -11,8 +11,7 @@ end
 
 class String
   def hash
-    int_arr = self.chars.map(&:ord)
-    int_arr.hash
+    chars.hash
   end
 end
 
