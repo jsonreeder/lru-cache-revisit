@@ -17,6 +17,9 @@ end
 
 class Hash
   def hash
-    0
+    hashed = 0.hash
+    arr = self.map { |k, v| [k, v] }
+    arr.each { |bucket| hashed ^= bucket.hash }
+    hashed
   end
 end
