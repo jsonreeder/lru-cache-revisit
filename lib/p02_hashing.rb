@@ -1,9 +1,8 @@
-class Fixnum
-  # Fixnum#hash already implemented for you
-end
-
 class Array
   def hash
+    hashed = 0.hash
+    self.each { |el| (el % 2).zero? ? hashed += el : hashed ^= el }
+    hashed
   end
 end
 
