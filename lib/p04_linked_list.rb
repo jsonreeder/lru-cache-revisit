@@ -46,19 +46,11 @@ class LinkedList
   end
 
   def get(key)
-    current_node = first
-    while current_node.next
-      return current_node.val if current_node.key == key
-      current_node = current_node.next
-    end
+    each { |node| return node.val if node.key == key }
   end
 
   def include?(key)
-    current_node = first
-    while current_node.next
-      return true if current_node.key == key
-      current_node = current_node.next
-    end
+    each { |node| return true if node.key == key }
     false
   end
 
@@ -72,27 +64,23 @@ class LinkedList
   end
 
   def update(key, val)
-    current_node = first
-    while current_node.next
-      if current_node.key == key
-        current_node.val = val
+    each do |node|
+      if node.key == key
+        node.val = val
         break
       end
-      current_node = current_node.next
     end
   end
 
   def remove(key)
-    current_node = first
-    while current_node.next
-      if current_node.key == key
-        n_prev = current_node.prev
-        n_next = current_node.next
+    each do |node|
+      if node.key == key
+        n_prev = node.prev
+        n_next = node.next
         n_prev.next = n_next
         n_next.prev = n_prev
         break
       end
-      current_node = current_node.next
     end
   end
 
