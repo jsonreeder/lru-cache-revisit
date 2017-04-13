@@ -1,3 +1,4 @@
+require 'byebug'
 class MaxIntSet
   def initialize(max)
     @store = Array.new(max, false)
@@ -65,18 +66,24 @@ class ResizingIntSet
   end
 
   def insert(num)
+    resize! if @count == num_buckets
+    @count += 1
+    self[num] << num
   end
 
   def remove(num)
+    @count -= 1
+    self[num].delete(num)
   end
 
   def include?(num)
+    self[num].include?(num)
   end
 
   private
 
   def [](num)
-    # optional but useful; return the bucket corresponding to `num`
+    @store[num % num_buckets]
   end
 
   def num_buckets
@@ -84,5 +91,11 @@ class ResizingIntSet
   end
 
   def resize!
+    old_store = @store
+    @store = Array.new(num_buckets * 2) { Array.new }
+    @count = 0
+    old_store.each do |bucket|
+      bucket.each { |el| insert(el) }
+    end
   end
 end
