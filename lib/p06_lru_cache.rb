@@ -22,7 +22,7 @@ class LRUCache
       # Call the proc
       val = calc!(key)
       # Eject if max size exceeded
-      eject! if count >= @max
+      eject! if count > @max
     end
 
     # Return found value / calculated value
@@ -53,5 +53,8 @@ class LRUCache
   end
 
   def eject!
+    first_key = @store.first.key
+    @map.delete(first_key)
+    @store.remove(first_key)
   end
 end
