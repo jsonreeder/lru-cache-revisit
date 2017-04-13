@@ -15,6 +15,18 @@ class LRUCache
   end
 
   def get(key)
+    if @map.include?(key)
+      # Move to end of list
+      update_link!
+      # Return Value
+    else
+      # Call the proc
+      val = calc!(key)
+      # Eject if max size exceeded
+      eject! if count >= @max
+      # Return proc output
+      val
+    end
   end
 
   def to_s
@@ -24,7 +36,13 @@ class LRUCache
   private
 
   def calc!(key)
-    # suggested helper method; insert an (un-cached) key
+    # Calculate output
+    val = @prc.call(key)
+    # Save output
+    @store.append(key, val)
+    @map[key] = @store.last
+    # Return output
+    val
   end
 
   def update_link!(link)
