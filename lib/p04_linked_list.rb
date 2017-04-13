@@ -46,7 +46,7 @@ class LinkedList
   end
 
   def get(key)
-    current_node = @head
+    current_node = first
     while current_node.next
       return current_node.val if current_node.key == key
       current_node = current_node.next
@@ -54,7 +54,7 @@ class LinkedList
   end
 
   def include?(key)
-    current_node = @head
+    current_node = first
     while current_node.next
       return true if current_node.key == key
       current_node = current_node.next
@@ -64,7 +64,7 @@ class LinkedList
 
   def append(key, val)
     new_node = Link.new(key, val)
-    penultimate = @tail.prev
+    penultimate = last
     penultimate.next = new_node
     new_node.prev = penultimate
     new_node.next = @tail
@@ -72,7 +72,7 @@ class LinkedList
   end
 
   def update(key, val)
-    current_node = @head
+    current_node = first
     while current_node.next
       if current_node.key == key
         current_node.val = val
@@ -83,7 +83,7 @@ class LinkedList
   end
 
   def remove(key)
-    current_node = @head
+    current_node = first
     while current_node.next
       if current_node.key == key
         n_prev = current_node.prev
@@ -97,7 +97,7 @@ class LinkedList
   end
 
   def each
-    current_node = @head.next
+    current_node = first
     while current_node.next
       yield current_node
       current_node = current_node.next
